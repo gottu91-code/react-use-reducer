@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useReducer } from "react";
 
-function App() {
+// useState: 状態を定義する。状態の更新は利用者に託す。
+// useReducer: 状態を定義する。状態の更新も定義する。
+
+export const App = () => {
+  const [rstate, dispatch] = useReducer((prev, { type, step }) => {
+    switch(type) {
+      case '+':
+        return prev + step;
+      case '-':
+        return prev - step;
+      default:
+        throw new Error('不明な値です');
+    }
+
+    // if(type === '+') {
+    //   return prev + step;
+    // } else if(type === '-') {
+    //   return prev - step;
+    // }
+  }, 0);
+
+  const countUp = () => {
+    dispatch({ type: '+', step: 2 });
+  }
+  const countDown = () => {
+    dispatch({ type: '-', step: 3 });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <p>rstate: {rstate}</p>
+      <button onClick={countUp}>+</button>
+      <button onClick={countDown}>-</button>
+    </>
+  )
 }
-
-export default App;
